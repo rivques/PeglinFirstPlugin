@@ -23,7 +23,7 @@
   
   <ItemGroup>
     <Reference Include="PeglinRelicLib">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Peglin Demo\BepInEx\plugins\Gobs-Peglin_Relic_Library-2.0.2\PeglinRelicLib.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Peglin\BepInEx\plugins\Gobs-Peglin_Relic_Library-2.0.2\PeglinRelicLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

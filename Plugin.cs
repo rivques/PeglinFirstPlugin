@@ -8,7 +8,9 @@ using HarmonyLib;
 using Battle;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using System;
+
+#pragma warning disable Publicizer001 // Accessing a member that was not originally public
 
 namespace MyFirstPlugin
 {
@@ -17,11 +19,14 @@ namespace MyFirstPlugin
     public class Plugin : BaseUnityPlugin
     {
         public static RelicEffect myRelicEffect;
+        public static PegManager pegManager = null;
+        public static Random rnd;
         public static new ManualLogSource Log;
         private readonly Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
         internal bool isPatched;
         private void OnEnable()
         {
+            rnd = new Random();
             if (!isPatched)
             {
                 // Plugin startup logic
@@ -61,11 +66,20 @@ namespace MyFirstPlugin
         
         static void Prefix(PlayerHealthController __instance, ref float damage, RelicManager ____relicManager, FloatVariable ____playerHealth)
         {
-            damage = 0;
-            ____relicManager.GetMultipleRelicsOfRarity(10, RelicRarity.COMMON);
             if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.testRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
             {
                 Plugin.Log.LogInfo("Player took damage with relic active!");
+                if(Plugin.pegManager != null)
+                {
+                    var unHitBombs = Plugin.pegManager._bombs.Where(x => x.HitCount == 0).ToList();
+                    Plugin.Log.LogInfo("damage taken while pegManager exists!");
+                    Plugin.Log.LogInfo("Found " + unHitBombs.Count.ToString() + " unhit bombs");
+                    if (unHitBombs.Count != 0)
+                    {
+                        unHitBombs[Plugin.rnd.Next(0, unHitBombs.Count)].PegActivated(true);
+                    }
+                }
+
             } else
             {
                 Plugin.Log.LogInfo("Player took damage, but relic not active!");
@@ -87,6 +101,15 @@ namespace MyFirstPlugin
             Relic relic = allRelics.Find(r => r.effect == relicEffect);
             __instance.AddRelic(relic);
 
+        }
+    }
+    [HarmonyPatch(typeof(BattleController), "Awake") ]
+    public class BattleControllerPatch
+    {
+        public static void Postfix(PegManager ____pegManager)
+        {
+            Plugin.Log.LogInfo("PegManager instantiated");
+            Plugin.pegManager = ____pegManager;
         }
     }
 }
