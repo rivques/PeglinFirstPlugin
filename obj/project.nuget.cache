@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "dgSpecHash": "f/HcZorX6GztXgHI3Cy8E4R6kAmZY4AH5K2ZoQj9HfSM+5PZPPXfagGMYt4jdfPBxj4wzU9DFiB53r1SXEyIig==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lewis\\Documents\\MyFirstPlugin\\MyFirstPlugin.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lewis\\.nuget\\packages\\bepinex.analyzers\\1.0.8\\bepinex.analyzers.1.0.8.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\bepinex.baselib\\5.4.20\\bepinex.baselib.5.4.20.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\bepinex.core\\5.4.21\\bepinex.core.5.4.21.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\bepinex.plugininfoprops\\1.1.0\\bepinex.plugininfoprops.1.1.0.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\harmonyx\\2.7.0\\harmonyx.2.7.0.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.2\\microsoft.netframework.referenceassemblies.1.0.2.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net472\\1.0.2\\microsoft.netframework.referenceassemblies.net472.1.0.2.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\mono.cecil\\0.11.4\\mono.cecil.0.11.4.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\monomod.runtimedetour\\21.12.13.1\\monomod.runtimedetour.21.12.13.1.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\monomod.utils\\21.12.13.1\\monomod.utils.21.12.13.1.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\peglin.gamelibs\\0.7.36-r.0\\peglin.gamelibs.0.7.36-r.0.nupkg.sha512",
+    "C:\\Users\\lewis\\.nuget\\packages\\unityengine.modules\\2019.4.32\\unityengine.modules.2019.4.32.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "MyFirstPlugin depends on UnityEngine.Modules (>= 2019.4.31.12409535) but UnityEngine.Modules 2019.4.31.12409535 was not found. An approximate best match of UnityEngine.Modules 2019.4.32 was resolved.",
+      "libraryId": "UnityEngine.Modules",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2"
+      ]
+    }
+  ]
+}

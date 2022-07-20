@@ -1,0 +1,16 @@
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\MyFirstPlugin.dll
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\MyFirstPlugin.pdb
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\Assembly-CSharp-firstpass.dll
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\Assembly-CSharp.dll
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\DOTween.dll
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\Peglin.OdinSerializer.dll
+C:\Users\lewis\Documents\MyFirstPlugin\bin\Debug\net472\PeglinRelicLib.dll
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.csproj.AssemblyReference.cache
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\PluginInfo.cs
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.AssemblyInfoInputs.cache
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.AssemblyInfo.cs
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.csproj.CoreCompileInputs.cache
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.csproj.CopyComplete
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.dll
+C:\Users\lewis\Documents\MyFirstPlugin\obj\Debug\net472\MyFirstPlugin.pdb
