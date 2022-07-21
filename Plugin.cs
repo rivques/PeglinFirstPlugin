@@ -6,6 +6,7 @@ using PeglinRelicLib.Utility;
 using Relics;
 using HarmonyLib;
 using Battle;
+using Battle.Enemies;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -20,9 +21,12 @@ namespace MyFirstPlugin
     {
         public static RelicEffect bombRelicEffect;
         public static RelicEffect slimeRelicEffect;
+        public static RelicEffect bombEnemyRelicEffect;
         public static PegManager pegManager = null;
+        public static RelicManager relicManager = null;
         public static Random rnd;
         public static new ManualLogSource Log;
+        public static int bombsToAdd = 0;
         private readonly Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
         internal bool isPatched;
         internal const int RUBBER_PEG_CONVERT = 5;
@@ -55,6 +59,15 @@ namespace MyFirstPlugin
                 };
                 slimeRelic.SetAssemblyPath(this);
 
+                RelicDataModel bombEnemyRelic = new RelicDataModel("io.github.rivques.bombEnemyRelic")
+                {
+                    Rarity = RelicRarity.BOSS,
+                    BundlePath = "testbundle",
+                    SpriteName = "explosive enemies",
+                    LocalKey = "enemyBomb"
+                };
+                bombEnemyRelic.SetAssemblyPath(this);
+
 
 
                 RelicRegister.RegisterRelic(bombRelic, out RelicEffect bombEffect);
@@ -62,6 +75,9 @@ namespace MyFirstPlugin
 
                 RelicRegister.RegisterRelic(slimeRelic, out RelicEffect slimeEffect);
                 slimeRelicEffect = slimeEffect;
+
+                RelicRegister.RegisterRelic(bombEnemyRelic, out RelicEffect bombEnemyEffect);
+                bombEnemyRelicEffect = bombEnemyEffect;
 
                 LocalizationHelper.ImportTerm(
                     new TermDataModel(bombRelic.NameTerm)
@@ -79,6 +95,14 @@ namespace MyFirstPlugin
                     new TermDataModel(slimeRelic.DescriptionTerm)
                     {
                         English = $"On reload {Plugin.RUBBER_PEG_CONVERT} <sprite name=PEG> become <color=#FF69B4>bouncy</color> and <style=durable>durable</style>"
+                    },
+                    new TermDataModel(bombEnemyRelic.NameTerm)
+                    {
+                        English = $"Explosive Enemies"
+                    },
+                    new TermDataModel(bombEnemyRelic.DescriptionTerm)
+                    {
+                        English = $"At the start of a battle add a <sprite name=BOMB> for every enemy in the battle"
                     }
                     );
                 harmony.PatchAll();
@@ -124,7 +148,7 @@ namespace MyFirstPlugin
                 .Union(__instance._bossRelicPool._relics)
                 .ToList();
 
-            RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombRelic", out RelicEffect bombEffect);
+            RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombEnemyRelic", out RelicEffect bombEffect);
             Relic bombRelic = allRelics.Find(r => r.effect == bombEffect);
             __instance.AddRelic(bombRelic);
 
@@ -158,10 +182,40 @@ namespace MyFirstPlugin
     [HarmonyPatch(typeof(BattleController), "Awake") ]
     public class BattleControllerPatch
     {
-        public static void Postfix(PegManager ____pegManager)
+        public static void Postfix(PegManager ____pegManager, EnemyManager ____enemyManager, RelicManager ____relicManager)
         {
             Plugin.Log.LogInfo("PegManager instantiated");
             Plugin.pegManager = ____pegManager;
         }
     }
+
+    [HarmonyPatch(typeof(BattleController), "CheckRelicsForStartingBombCount")]
+    public class BattleControllerBombPatch
+    {
+        public static void Postfix(PegManager ____pegManager, EnemyManager ____enemyManager, RelicManager ____relicManager)
+        {
+            if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombEnemyRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
+            {
+                Plugin.Log.LogInfo($"PegManager needs to add {____enemyManager.Enemies.Count} bombs");
+                ____pegManager.ConvertPegsToBombs(____enemyManager.Enemies.Count);
+            }
+        }
+    }
+
+    //[HarmonyPatch(typeof(Enemy), "Initialize")]
+    //public class EnemyPatch
+    //{
+    //    public static void Postfix(RelicManager relicManager)
+    //    {
+    //        if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombEnemyRelic", out RelicEffect effect) && relicManager.RelicEffectActive(effect)) {
+    //            Plugin.Log.LogInfo($"Converting peg to bomb");
+    //            /*foreach(Enemy enemy in ____enemyManager.Enemies)
+    //            {*/
+    //                //Plugin.Log.LogInfo($"Enemy type: {__instance.enemyTypes.ToString()}, {__instance.CurrentHealth}/{__instance._maxHealth} health");
+    //            /*}*/
+    //            Plugin.bombsToAdd++;
+
+    //        }
+    //    }
+    //}
 }
