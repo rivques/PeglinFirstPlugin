@@ -17,10 +17,19 @@ namespace MyFirstPlugin
     [BepInDependency("io.github.crazyjackel.RelicLib")]
     public class Plugin : BaseUnityPlugin
     {
+<<<<<<< Updated upstream
         public static RelicEffect myRelicEffect;
+=======
+        public static RelicEffect bombRelicEffect;
+        public static RelicEffect slimeRelicEffect;
+        public static PegManager pegManager = null;
+        public static Random rnd;
+>>>>>>> Stashed changes
         public static new ManualLogSource Log;
         private readonly Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
         internal bool isPatched;
+        internal const int RUBBER_PEG_CONVERT = 5;
+
         private void OnEnable()
         {
             if (!isPatched)
@@ -29,26 +38,53 @@ namespace MyFirstPlugin
                 Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
                 Log = base.Logger;
                 Plugin.Log.LogInfo("Global logging works!");
-                RelicDataModel model = new RelicDataModel("io.github.rivques.testRelic")
+
+                RelicDataModel bombRelic = new RelicDataModel("io.github.rivques.bombRelic")
                 {
-                    Rarity = RelicRarity.COMMON,
+                    Rarity = RelicRarity.BOSS,
                     BundlePath = "testbundle",
-                    SpriteName = "relic1",
+                    SpriteName = "bombster",
                     LocalKey = "angryFace"
                 };
-                model.SetAssemblyPath(this);
+                bombRelic.SetAssemblyPath(this);
 
-                bool success = RelicRegister.RegisterRelic(model, out RelicEffect myEffect);
-                myRelicEffect = myEffect;
+                RelicDataModel slimeRelic = new RelicDataModel("io.github.rivques.slimeRelic")
+                {
+                    Rarity = RelicRarity.RARE,
+                    BundlePath = "testbundle",
+                    SpriteName = "slimed peg",
+                    LocalKey = "slimeBall"
+                };
+                slimeRelic.SetAssemblyPath(this);
+
+
+
+                RelicRegister.RegisterRelic(bombRelic, out RelicEffect bombEffect);
+                bombRelicEffect = bombEffect;
+
+                RelicRegister.RegisterRelic(slimeRelic, out RelicEffect slimeEffect);
+                slimeRelicEffect = slimeEffect;
 
                 LocalizationHelper.ImportTerm(
-                    new TermDataModel(model.NameTerm)
+                    new TermDataModel(bombRelic.NameTerm)
                     {
-                        English = "Red Angry Dude"
+                        English = "Bombster"
                     },
-                    new TermDataModel(model.DescriptionTerm)
+                    new TermDataModel(bombRelic.DescriptionTerm)
                     {
+                        English = "Prime an unprimed <sprite name=BOMB> every time you are <style=damage>damaged.</style>"
+                    },
+                    new TermDataModel(slimeRelic.NameTerm)
+                    {
+<<<<<<< Updated upstream
                         English = "<style=pierce>Test</style>"
+=======
+                        English = "Bouncy Slimeball"
+                    },
+                    new TermDataModel(slimeRelic.DescriptionTerm)
+                    {
+                        English = $"On reload {Plugin.RUBBER_PEG_CONVERT} <sprite name=PEG> become <color=#FF69B4>bouncy</color> and <style=durable>durable</style>"
+>>>>>>> Stashed changes
                     }
                     );
                 harmony.PatchAll();
@@ -62,12 +98,27 @@ namespace MyFirstPlugin
         
         static void Prefix(PlayerHealthController __instance, ref float damage, RelicManager ____relicManager, FloatVariable ____playerHealth)
         {
-            if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.testRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
+            if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
             {
+<<<<<<< Updated upstream
                 Plugin.Log.LogInfo("Player took damage with relic active!");
+=======
+                Plugin.Log.LogInfo("Player took damage with bomb relic active!");
+                if(Plugin.pegManager != null)
+                {
+                    var unHitBombs = Plugin.pegManager._bombs.Where(x => x.HitCount == 0).ToList();
+                    Plugin.Log.LogInfo("damage taken while pegManager exists!");
+                    Plugin.Log.LogInfo("Found " + unHitBombs.Count.ToString() + " unhit bombs");
+                    if (unHitBombs.Count != 0)
+                    {
+                        unHitBombs[Plugin.rnd.Next(0, unHitBombs.Count)].PegActivated(true);
+                    }
+                }
+
+>>>>>>> Stashed changes
             } else
             {
-                Plugin.Log.LogInfo("Player took damage, but relic not active!");
+                Plugin.Log.LogInfo("Player took damage, but bomb relic not active!");
             }
         }
     }
@@ -82,10 +133,48 @@ namespace MyFirstPlugin
                 .Union(__instance._rareScenarioRelics._relics)
                 .Union(__instance._bossRelicPool._relics)
                 .ToList();
-            RelicRegister.TryGetCustomRelicEffect("io.github.rivques.testRelic", out RelicEffect relicEffect);
-            Relic relic = allRelics.Find(r => r.effect == relicEffect);
-            __instance.AddRelic(relic);
 
+            RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombRelic", out RelicEffect bombEffect);
+            Relic bombRelic = allRelics.Find(r => r.effect == bombEffect);
+            __instance.AddRelic(bombRelic);
+
+            RelicRegister.TryGetCustomRelicEffect("io.github.rivques.slimeRelic", out RelicEffect slimeEffect);
+            Relic slimeRelic = allRelics.Find(r => r.effect == slimeEffect);
+            __instance.AddRelic(slimeRelic);
         }
     }
+<<<<<<< Updated upstream
+=======
+
+    [HarmonyPatch(typeof(BattleController),"StartReloading")]
+
+    public class ReloadPatch
+    {
+        public static void Prefix(PegManager ____pegManager, RelicManager ____relicManager)
+        {
+            if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.slimeRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
+            {
+                Plugin.Log.LogInfo("Player reloaded with slime relic active!");
+                if (Plugin.pegManager != null)
+                {
+                    Plugin.pegManager.ApplyEnemySlimeToPegs(Peg.SlimeType.BouncySlime, Plugin.RUBBER_PEG_CONVERT);
+                }
+            }
+            else
+            {
+                Plugin.Log.LogInfo("Player reloaded, but slime relic not active!");
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(BattleController), "Awake") ]
+    public class BattleControllerPatch
+    {
+        public static void Postfix(PegManager ____pegManager)
+        {
+            Plugin.Log.LogInfo("PegManager instantiated");
+            Plugin.pegManager = ____pegManager;
+        }
+    }
+>>>>>>> Stashed changes
 }
