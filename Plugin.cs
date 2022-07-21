@@ -9,6 +9,7 @@ using Battle;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace MyFirstPlugin
 {
@@ -47,7 +48,7 @@ namespace MyFirstPlugin
                     },
                     new TermDataModel(model.DescriptionTerm)
                     {
-                        English = "<sprite name=\"BOMB\"><sprite name=\"BOMB\"><sprite name=\"BOMB\"><sprite name=\"BOMB\"><sprite name=\"BOMB\">"
+                        English = "<style=pierce>Test</style>"
                     }
                     );
                 harmony.PatchAll();
@@ -61,8 +62,6 @@ namespace MyFirstPlugin
         
         static void Prefix(PlayerHealthController __instance, ref float damage, RelicManager ____relicManager, FloatVariable ____playerHealth)
         {
-            damage = 0;
-            ____relicManager.GetMultipleRelicsOfRarity(10, RelicRarity.COMMON);
             if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.testRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
             {
                 Plugin.Log.LogInfo("Player took damage with relic active!");

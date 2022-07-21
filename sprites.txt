@@ -1,0 +1,60 @@
+Sprites
+
+BOMB - The bomb sprite (fuse not activated)
+PEG - The base peg that hasn't beem hit yet
+CRIT_PEG - The Crit Peg
+REFRESH_PEG - The Refresh Peg
+RIGGED_BOMB - The red bomb that damages you
+UNPOP_PEG - The white peg from the pachinko minigame
+DULL_PEG - The unbreakable grey pegs
+PEG_CLEARED - The sprite for a peg that has been hit
+
+BULLET - Not sure what it does but it does exist in some capacity
+
+
+Styles
+
+multiball - Gives the Multiball tooltip
+dmg_bonus - Makes text green
+heal - Also makes text green
+bramble - Gives bramble tooltip
+activate - Gives the activate tooltip
+blind - Gives the blind tooltip
+echo - Gives the echo tooltip
+persist - Gives the persist tooltip
+refresh - Makes text green again
+damage - Makes text red
+strength - Gives muscircle tooltip
+balance - Gives the ballance tooltip
+dmg_negative - Makes text red
+overflow - Gives overflow tooltip
+durable - Gives durable tooltip
+confuse - Gives confusion tooltip
+fire - Makes text orange
+shield - Gives the bullwark tooltip
+hit - Gives hit tooltip
+pop - Gives pop tooltip
+destroy - Gives destroy tooltip
+pierce - Makes text very light blue
+
+
+Untested Styles
+
+water
+upgradeOrb
+egg
+crystal
+objectOfInterest
+lightning
+slime
+loseOrb
+
+
+Untested
+
+wiggle 
+stones
+dangle
+shake
+bounce
+peglin
