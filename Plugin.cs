@@ -8,8 +8,9 @@ using HarmonyLib;
 using Battle;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using UnityEngine;
+using System;
+
+#pragma warning disable Publicizer001 // Accessing a member that was not originally public
 
 namespace MyFirstPlugin
 {
@@ -17,14 +18,10 @@ namespace MyFirstPlugin
     [BepInDependency("io.github.crazyjackel.RelicLib")]
     public class Plugin : BaseUnityPlugin
     {
-<<<<<<< Updated upstream
-        public static RelicEffect myRelicEffect;
-=======
         public static RelicEffect bombRelicEffect;
         public static RelicEffect slimeRelicEffect;
         public static PegManager pegManager = null;
         public static Random rnd;
->>>>>>> Stashed changes
         public static new ManualLogSource Log;
         private readonly Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
         internal bool isPatched;
@@ -32,6 +29,7 @@ namespace MyFirstPlugin
 
         private void OnEnable()
         {
+            rnd = new Random();
             if (!isPatched)
             {
                 // Plugin startup logic
@@ -76,15 +74,11 @@ namespace MyFirstPlugin
                     },
                     new TermDataModel(slimeRelic.NameTerm)
                     {
-<<<<<<< Updated upstream
-                        English = "<style=pierce>Test</style>"
-=======
                         English = "Bouncy Slimeball"
                     },
                     new TermDataModel(slimeRelic.DescriptionTerm)
                     {
                         English = $"On reload {Plugin.RUBBER_PEG_CONVERT} <sprite name=PEG> become <color=#FF69B4>bouncy</color> and <style=durable>durable</style>"
->>>>>>> Stashed changes
                     }
                     );
                 harmony.PatchAll();
@@ -100,9 +94,6 @@ namespace MyFirstPlugin
         {
             if (RelicRegister.TryGetCustomRelicEffect("io.github.rivques.bombRelic", out RelicEffect effect) && ____relicManager.RelicEffectActive(effect))
             {
-<<<<<<< Updated upstream
-                Plugin.Log.LogInfo("Player took damage with relic active!");
-=======
                 Plugin.Log.LogInfo("Player took damage with bomb relic active!");
                 if(Plugin.pegManager != null)
                 {
@@ -115,7 +106,6 @@ namespace MyFirstPlugin
                     }
                 }
 
->>>>>>> Stashed changes
             } else
             {
                 Plugin.Log.LogInfo("Player took damage, but bomb relic not active!");
@@ -143,8 +133,6 @@ namespace MyFirstPlugin
             __instance.AddRelic(slimeRelic);
         }
     }
-<<<<<<< Updated upstream
-=======
 
     [HarmonyPatch(typeof(BattleController),"StartReloading")]
 
@@ -176,5 +164,4 @@ namespace MyFirstPlugin
             Plugin.pegManager = ____pegManager;
         }
     }
->>>>>>> Stashed changes
 }
