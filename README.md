@@ -1,3 +1,2 @@
 # PeglinFirstPlugin
-Hi Rivques
-Hello there!
+Messing around with Peglin modding with [@ThatGuyDed](https://github.com/ThatGuyDed)
